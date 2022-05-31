@@ -84,7 +84,9 @@ public class Svatky {
      */
     public Stream<String> den(MonthDay den) {
         //TODO
-        return null;
+        return seznamSvatku()
+                .filter(svatek -> svatek.getDen().equals(den))
+                .map(svatek -> svatek.getJmeno());
     }
 
     /**
@@ -95,7 +97,9 @@ public class Svatky {
      */
     public Stream<String> zenskaJmenaVMesici(Month mesic) {
         //TODO
-        return null;
+        return seznamSvatku()
+                .filter(svatek -> svatek.getDen().getMonth().equals(mesic) && svatek.getGender() == Gender.ZENA)
+                .map(svatek -> svatek.getJmeno());
     }
 
     /**
@@ -105,7 +109,11 @@ public class Svatky {
      */
     public int pocetMuzuSvatekPrvniho() {
         //TODO
-        return 0;
+        return seznamSvatku()
+                .filter(svatek -> svatek.getGender() == Gender.MUZ)
+                .filter(svatek -> svatek.getDen().getDayOfMonth() == 1)
+                .mapToInt(svatek -> 1)
+                .sum();
     }
 
     /**
@@ -113,6 +121,12 @@ public class Svatky {
      */
     public void vypsatJmenaListopad() {
         //TODO
+        seznamSvatku()
+                .filter(svatek -> svatek.getDen().getMonthValue() == 11)
+                .forEach(System.out::println);
+        {
+
+        }
     }
 
     /**
@@ -120,7 +134,10 @@ public class Svatky {
      */
     public int pocetUnikatnichJmen() {
         //TODO
-        return 0;
+        return (int) seznamSvatku()
+                .map(svatek -> svatek.getJmeno())
+                .distinct()
+                .count();
     }
 
     /**
@@ -130,7 +147,10 @@ public class Svatky {
      */
     public Stream<String> cervenJmenaOdDesatehoJmena() {
         //TODO
-        return null;
+        return seznamSvatku()
+                .filter(svatek -> svatek.getDen().getMonthValue() == 6)
+                .skip(10)
+                .map(Svatek::getJmeno);
     }
 
     /**
@@ -140,7 +160,10 @@ public class Svatky {
      */
     public Stream<String> jmenaOdVanoc() {
         //TODO
-        return null;
+        return seznamSvatku()
+                .filter(svatek -> svatek.getDen().getMonthValue() == 12)
+                .filter(svatek -> svatek.getDen().getDayOfMonth() >= 24)
+                .map(Svatek::getJmeno);
     }
 
     private static Svatek parseLine(String line) {
